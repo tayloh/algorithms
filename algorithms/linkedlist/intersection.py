@@ -85,7 +85,7 @@ def intersection(h1, h2):
             # force the longer of the two lists to "catch up"
             longer = longer.next
             long_len -= 1
-        else:
+        else: # 81
             branches[81] = True
 
         if longer == shorter: # 9
@@ -93,12 +93,12 @@ def intersection(h1, h2):
 
             # The nodes match, return the node
             return longer
-        else:
+        else: # 91
             branches[91] = True
 
             longer = longer.next
             shorter = shorter.next
-    else:
+    else: # 71
         branches[71] = True
 
     return None
@@ -134,6 +134,11 @@ class TestSuite(unittest.TestCase):
         e.next = f
 
         self.assertEqual(7, intersection(a1, a2).val)
+    
+    def test_intersection_singlenodelists(self):
+        a = Node(1)
+        b = Node(2)
+        self.assertEqual(None, intersection(a, b))
 
 
 def runcoverage():
