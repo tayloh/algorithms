@@ -135,19 +135,23 @@ class TestSuite(unittest.TestCase):
 
         self.assertEqual(7, intersection(a1, a2).val)
 
-        coverage = 0
-        max_coverage = 100
-        points_per_branch = max_coverage / len(branches.keys())
 
-        for key in branches.keys():
-            print(str(key) + " : " + str(branches[key]))
-        
-            if branches[key]:
-                coverage += points_per_branch
+def runcoverage():
+    coverage = 0
+    max_coverage = 100
+    points_per_branch = max_coverage / len(branches.keys())
+    print("----------Branch Coverage----------")
+    for key in branches.keys():
+        print(str(key) + " : " + str(branches[key]))
     
-        print("Branch coverage:", coverage, "%")
+        if branches[key]:
+            coverage += points_per_branch
+
+    print("Branch coverage:", coverage, "%")
+    print("----------Branch Coverage----------")
 
 
 if __name__ == '__main__':
 
-    unittest.main()
+    unittest.main(exit=False)
+    runcoverage()
