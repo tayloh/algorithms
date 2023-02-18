@@ -212,7 +212,7 @@ def runcoverage():
     for key in branches.keys():
         print(str(key) + " : " + str(branches[key]))
     
-        if branches[key] or key in unreachable:
+        if branches[key]: #or key in unreachable:
             coverage += points_per_branch
     
     print("Unreachable:", unreachable)
