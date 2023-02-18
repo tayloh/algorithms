@@ -15,8 +15,56 @@ class Node(object): # pragma: no cover
         self.val = val
         self.next = None
 
+def get_length(h):
+    length = 0
+    head = h
+    while head:
+        length += 1
+        head = head.next
+    
+    return length
+
+def get_n_last_nodes(h, n):
+    length = get_length(h)
+
+    if length <= n:
+        return h
+    
+    head = h
+    while length > n:
+        length -= 1
+        head = h.next
+    
+    return head
+
 
 def intersection(h1, h2):
+    # Get the lengths
+    h1_length = get_length(h1)
+    h2_length = get_length(h2)
+
+    # Check which list is the longer / shorter one / if they're the same it doesn't matter
+    if h1_length > h2_length:
+        longer, long_len = h1, h1_length
+        shorter, short_len = h2, h2_length
+    else:
+        longer, long_len = h2, h2_length
+        shorter, short_len = h1, h1_length
+
+    # Advance the longer list
+    longer = get_n_last_nodes(longer, short_len)
+
+    # Check for intersection
+    while longer and shorter:
+        if longer == shorter:
+            return longer
+        else:
+            longer = longer.next
+            shorter = shorter.next
+    
+    return None
+
+def intersection_old(h1, h2): # pragma: no cover
 
     count = 0
     flag = None
