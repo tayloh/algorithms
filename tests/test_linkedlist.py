@@ -140,9 +140,13 @@ class TestSuite(unittest.TestCase):
             curr.next = Node(i)
             curr = curr.next
         self.assertFalse(is_cyclic(head))
-    
-    
-    def test_intersection(self):
+
+    def test_intersection_samelength(self):
+        """Contract:
+        Pre: Input is two linked lists, h1, h2, which intersect at the same index.
+        Post: intersection(h1, h2) returns the intersected node.
+        Asserts equal at the intersected node.
+        """
 
         # create linked list as:
         # 1 -> 3 -> 5
@@ -170,6 +174,66 @@ class TestSuite(unittest.TestCase):
         e.next = f
 
         self.assertEqual(7, intersection(a1, a2).val)
+    
+    def test_intersection_singlenodelists(self):
+        """Contract:
+        Pre: Input is two linked lists, h1, h2, which do not intersect.
+        Post: intersection(h1, h2) returns None.
+        Asserts equal None.
+        """
+        # h1: a
+        #
+        # h2: b
+
+        a = Node(1)
+        b = Node(2)
+        self.assertEqual(None, intersection(a, b))
+
+    def test_intersection_h1longer(self):
+        """Contract:
+        Pre: Input is two linked lists, h1, h2, where there's an intersection further along h1 than h2.
+        Post: intersection(h1, h2) returns the intersected node.
+        Asserts equal at the intersected node.
+        """
+        # h1: a1 -> a2
+        #            \ 
+        #             a3
+        #            /
+        # h2:       b1 
+
+        a1 = Node(1)
+        a2 = Node(2)
+        a3 = Node(3)
+        a1.next = a2
+        a2.next = a3
+
+        b1 = Node(4)
+        b1.next = a3
+
+        self.assertEqual(3, intersection(a1, b1).val)
+    
+    def test_intersection_h2longer(self):
+        """Contract:
+        Pre: Input is two linked lists, h1, h2, where there's an intersection further along h2 than h1.
+        Post: intersection(h1, h2) returns the intersected node.
+        Asserts equal at the intersected node.
+        """ 
+        # h1:        a1
+        #             \ 
+        #             b3
+        #             /
+        # h2: b1 ->  b2 
+
+        b1 = Node(1)
+        b2 = Node(2)
+        b3 = Node(3)
+        b1.next = b2
+        b2.next = b3
+
+        a1 = Node(4)
+        a1.next = b3
+
+        self.assertEqual(3, intersection(a1, b1).val)
 
 
     def test_merge_two_list(self):
