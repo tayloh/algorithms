@@ -7,6 +7,7 @@ from algorithms.linkedlist import (
     swap_pairs,
     rotate_right,
     is_cyclic,
+    intersection,
     merge_two_list, merge_two_list_recur,
     is_palindrome, is_palindrome_stack, is_palindrome_dict,
     RandomListNode, copy_random_pointer_v1, copy_random_pointer_v2
@@ -139,6 +140,37 @@ class TestSuite(unittest.TestCase):
             curr.next = Node(i)
             curr = curr.next
         self.assertFalse(is_cyclic(head))
+    
+    
+    def test_intersection(self):
+
+        # create linked list as:
+        # 1 -> 3 -> 5
+        #            \
+        #             7 -> 9 -> 11
+        #            /
+        # 2 -> 4 -> 6
+        a1 = Node(1)
+        b1 = Node(3)
+        c1 = Node(5)
+        d = Node(7)
+        a2 = Node(2)
+        b2 = Node(4)
+        c2 = Node(6)
+        e = Node(9)
+        f = Node(11)
+
+        a1.next = b1
+        b1.next = c1
+        c1.next = d
+        a2.next = b2
+        b2.next = c2
+        c2.next = d
+        d.next = e
+        e.next = f
+
+        self.assertEqual(7, intersection(a1, a2).val)
+
 
     def test_merge_two_list(self):
         """
