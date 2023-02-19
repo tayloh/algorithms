@@ -277,5 +277,33 @@ class TestRBTree(unittest.TestCase):
         self.assertEqual(1, rb.root.left.color)
         self.assertEqual(0, rb.root.right.color)
 
+    # Tests the removal of a node with two black children nodes (left)
+    def test_simple_left_removal_color_change(self):
+        rb = RBTree()
+        node1 = RBNode(3, 0)
+        node2 = RBNode(5, 0)
+        node3 = RBNode(2, 0)
+        nullNode3 = RBNode(-1, 0)
+        nullNode4 = RBNode(-1, 0)
+        nullNode5 = RBNode(-1, 0)
+        rb.root = node1
+        node1.left = node3
+        node1.right = node2
+        node2.parent = node1
+        node3.parent = node1
+        node2.right = nullNode3
+        node2.left = nullNode4
+        nullNode3.parent = node2
+        nullNode4.parent = node2
+        node3.right = nullNode5
+        nullNode5.parent = node3
+
+        rb.delete(node3)
+        self.assertEqual(3, rb.root.val)
+        self.assertEqual(5, rb.root.right.val)
+        self.assertEqual(-1, rb.root.left.val)
+        self.assertEqual(0, rb.root.left.color)
+        self.assertEqual(1, rb.root.right.color)
+
 if __name__ == '__main__':
     unittest.main()
