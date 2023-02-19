@@ -16,6 +16,8 @@ class Node(object): # pragma: no cover
         self.next = None
 
 def get_length(h):
+    """Gets the length of a linked list.
+    """
     length = 0
     head = h
     while head:
@@ -25,6 +27,8 @@ def get_length(h):
     return length
 
 def get_n_last_nodes(h, n):
+    """Gets the n last nodes of the linked list.
+    """
     length = get_length(h)
 
     if length <= n:
@@ -39,6 +43,9 @@ def get_n_last_nodes(h, n):
 
 
 def intersection(h1, h2):
+    """Returns the intersecting node of linkedlists h1 and h2 if there's an intersection,
+    else None.
+    """
     # Get the lengths
     h1_length = get_length(h1)
     h2_length = get_length(h2)
@@ -65,6 +72,9 @@ def intersection(h1, h2):
     return None
 
 def intersection_old(h1, h2): # pragma: no cover
+    """Old implementation of intersection() with higher cyclomatic
+    complexity.
+    """
 
     count = 0
     flag = None
