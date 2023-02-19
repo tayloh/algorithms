@@ -203,6 +203,9 @@ class TestSuite(unittest.TestCase):
 
 
 def runcoverage():
+    """Checks and prints coverage information for intersection().
+    Must be run after the intersection() has been run using e.g. tests.
+    """
     unreachable = [61]
 
     coverage = 0
