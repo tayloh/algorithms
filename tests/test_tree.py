@@ -12,6 +12,10 @@ from algorithms.tree import construct_tree_postorder_preorder as ctpp
 
 from algorithms.tree.fenwick_tree.fenwick_tree import Fenwick_Tree
 
+from algorithms.tree.red_black_tree.red_black_tree import RBTree
+
+from algorithms.tree.red_black_tree.red_black_tree import RBNode
+
 import unittest
 
 
@@ -175,6 +179,131 @@ class TestFenwickTree(unittest.TestCase):
         ft.update_bit(bit_tree, 2, 11)
         self.assertEqual(23, ft.get_sum(bit_tree, 4))
 
+
+class TestRBTree(unittest.TestCase):
+
+    # Tests the removal of the left child of a node.
+    def test_simple_removal_left_child(self):
+        rb = RBTree()
+        node1 = RBNode(3,0)
+        node2 = RBNode(1, 0)
+        node3 = RBNode(5, 0)
+        node4 = RBNode(4, 1)
+        nullNode1 = RBNode(-1, 0)
+        nullNode3 = RBNode(-1, 0)
+        nullNode4 = RBNode(-1, 0)
+        nullNode5 = RBNode(-1, 0)
+        rb.root = node1
+        node1.right = node3
+        node1.left = node2
+        node2.parent = node1
+        node3.parent = node1
+        node2.right = nullNode1
+        nullNode1.parent = node2
+        node3.left = node4
+        node3.right = nullNode3
+        node4.parent = node3
+        nullNode3.parent = node3
+        node4.right = nullNode4
+        node4.left = nullNode5
+        nullNode4.parent = node4
+        nullNode5.parent = node4
+        rb.delete(node2)
+        self.assertEqual(4, rb.root.val)
+        self.assertEqual(5, rb.root.right.val)
+        self.assertEqual(3, rb.root.left.val)
+        self.assertEqual(0, rb.root.left.color)
+        self.assertEqual(0, rb.root.right.color)
+
+    # Tests the removal of the right child of a node.
+    def test_simple_removal_right_child(self):
+        rb = RBTree()
+        node1 = RBNode(3, 0)
+        node2 = RBNode(5, 0)
+        node3 = RBNode(2, 0)
+        node4 = RBNode(1, 1)
+        nullNode1 = RBNode(-1, 0)
+        nullNode3 = RBNode(-1, 0)
+        nullNode4 = RBNode(-1, 0)
+        nullNode5 = RBNode(-1, 0)
+        rb.root = node1
+        node1.left = node3
+        node1.right = node2
+        node2.parent = node1
+        node3.parent = node1
+        node2.left = nullNode1
+        nullNode1.parent = node2
+        node3.left = node4
+        node3.right = nullNode3
+        node4.parent = node3
+        nullNode3.parent = node3
+        node4.right = nullNode4
+        node4.left = nullNode5
+        nullNode4.parent = node4
+        nullNode5.parent = node4
+
+        rb.delete(node2)
+        self.assertEqual(2, rb.root.val)
+        self.assertEqual(3, rb.root.right.val)
+        self.assertEqual(1, rb.root.left.val)
+        self.assertEqual(0, rb.root.left.color)
+        self.assertEqual(0, rb.root.right.color)
+
+    # Tests the removal of a node with two black children nodes (right)
+    def test_simple_right_removal_color_change(self):
+        rb = RBTree()
+        node1 = RBNode(3, 0)
+        node2 = RBNode(5, 0)
+        node3 = RBNode(2, 0)
+        nullNode3 = RBNode(-1, 0)
+        nullNode4 = RBNode(-1, 0)
+        nullNode5 = RBNode(-1, 0)
+        rb.root = node1
+        node1.left = node3
+        node1.right = node2
+        node2.parent = node1
+        node3.parent = node1
+        node2.right = nullNode3
+        nullNode3.parent = node2
+        node3.left = nullNode4
+        node3.right = nullNode5
+        nullNode4.parent = node3
+        nullNode5.parent = node3
+
+        rb.delete(node2)
+        self.assertEqual(3, rb.root.val)
+        self.assertEqual(-1, rb.root.right.val)
+        self.assertEqual(2, rb.root.left.val)
+        self.assertEqual(1, rb.root.left.color)
+        self.assertEqual(0, rb.root.right.color)
+
+    # Tests the removal of a node with two black children nodes (left)
+    def test_simple_left_removal_color_change(self):
+        rb = RBTree()
+        node1 = RBNode(3, 0)
+        node2 = RBNode(5, 0)
+        node3 = RBNode(2, 0)
+        nullNode3 = RBNode(-1, 0)
+        nullNode4 = RBNode(-1, 0)
+        nullNode5 = RBNode(-1, 0)
+        rb.root = node1
+        node1.left = node3
+        node1.right = node2
+        node2.parent = node1
+        node3.parent = node1
+        node2.right = nullNode3
+        node2.left = nullNode4
+        nullNode3.parent = node2
+        nullNode4.parent = node2
+        node3.right = nullNode5
+        nullNode5.parent = node3
+
+        rb.delete(node3)
+        self.assertEqual(3, rb.root.val)
+        self.assertEqual(5, rb.root.right.val)
+        self.assertEqual(-1, rb.root.left.val)
+        self.assertEqual(0, rb.root.left.color)
+        self.assertEqual(1, rb.root.right.color)
 
 if __name__ == '__main__':
     unittest.main()

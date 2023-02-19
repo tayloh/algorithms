@@ -2,7 +2,7 @@
 Implementation of Red-Black tree.
 """
 
-
+instrument = [0] * 16
 class RBNode:
     def __init__(self, val, is_red, parent=None, left=None, right=None):
         self.val = val
@@ -208,33 +208,43 @@ class RBTree:
 
     def delete_fixup(self, node):
         # 4 cases
+        global instrument
         while node is not self.root and node.color == 0:
             # node is not root and color is black
+            instrument[0] = 1   # branch1
             if node is node.parent.left:
+                instrument[1] = 1  # branch2
                 # node is left node
                 node_brother = node.parent.right
 
                 # case 1: node's red, can not get black node
                 # set brother is black and parent is red 
                 if node_brother.color == 1:
+                    instrument[2] = 1  # branch3
                     node_brother.color = 0
                     node.parent.color = 1
                     self.left_rotate(node.parent)
                     node_brother = node.parent.right
 
+                else:
+                    instrument[3] = 1 # branch4
                 # case 2: brother node is black, and its children node is both black
                 if (node_brother.left is None or node_brother.left.color == 0) and (
                                 node_brother.right is None or node_brother.right.color == 0):
+                    instrument[4] = 1 # branch5
                     node_brother.color = 1
                     node = node.parent
                 else:
-
+                    instrument[5] = 1  # branch6
                     # case 3: brother node is black , and its left child node is red and right is black
                     if node_brother.right is None or node_brother.right.color == 0:
+                        instrument[6] = 1 # branch7
                         node_brother.color = 1
                         node_brother.left.color = 0
                         self.right_rotate(node_brother)
                         node_brother = node.parent.right
+                    else:
+                        instrument[7] = 1 # branch8
 
                     # case 4: brother node is black, and right is red, and left is any color
                     node_brother.color = node.parent.color
@@ -243,29 +253,40 @@ class RBTree:
                     self.left_rotate(node.parent)
                     node = self.root
             else:
+                instrument[8] = 1  # branch9
                 node_brother = node.parent.left
                 if node_brother.color == 1:
+                    instrument[9] = 1  # branch10
                     node_brother.color = 0
                     node.parent.color = 1
                     self.left_rotate(node.parent)
                     node_brother = node.parent.right
+                else:
+                    instrument[10] = 1 # branch11
                 if (node_brother.left is None or node_brother.left.color == 0) and (
                                 node_brother.right is None or node_brother.right.color == 0):
+                    instrument[11] = 1  # branch12
                     node_brother.color = 1
                     node = node.parent
                 else:
+                    instrument[12] = 1  # branch13
                     if node_brother.left is None or node_brother.left.color == 0:
+                        instrument[13] = 1  # branch14
                         node_brother.color = 1
                         node_brother.right.color = 0
                         self.left_rotate(node_brother)
                         node_brother = node.parent.left
+                    else:
+                        instrument[14] = 1 # branch15
                     node_brother.color = node.parent.color
                     node.parent.color = 0
                     node_brother.left.color = 0
                     self.right_rotate(node.parent)
                     node = self.root
+        else:
+            instrument[15] = 1 # branch 16
         node.color = 0
-
+        print(instrument)
     def inorder(self):
         res = []
         if not self.root:
