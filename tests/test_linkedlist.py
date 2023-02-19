@@ -189,6 +189,17 @@ class TestSuite(unittest.TestCase):
         b = Node(2)
         self.assertEqual(None, intersection(a, b))
 
+    def test_intersection_selfintersection(self):
+        """Contract:
+        Pre: Input is one linked list h.
+        Post: intersection(h, h) returns the first intersection with itself.
+        Asserts equal at the intersected node.
+        """
+        a = Node(1)
+        b = Node(2)
+        a.next = b
+        self.assertEqual(1, intersection(a, a).val)
+
     def test_intersection_h1longer(self):
         """Contract:
         Pre: Input is two linked lists, h1, h2, where there's an intersection further along h1 than h2.
