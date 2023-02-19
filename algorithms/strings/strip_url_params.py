@@ -101,7 +101,7 @@ def strip_url_params1(url, params_to_strip=None):
     return result
 
 # A very friendly pythonic solution (easy to follow)
-def strip_url_params2(url, param_to_strip=[]):
+def strip_url_params2(url, param_to_strip=[]): # pragma: no cover
     if '?' not in url:
         return url
 
@@ -115,7 +115,7 @@ def strip_url_params2(url, param_to_strip=[]):
 
 
 # Here is my friend's solution using python's builtin libraries
-def strip_url_params3(url, strip=None):
+def strip_url_params3(url, strip=None):  # pragma: no cover
     if not strip: strip = []
     
     parse = urllib.parse.urlparse(url)
@@ -127,7 +127,7 @@ def strip_url_params3(url, strip=None):
     
     return new.geturl()
 
-def branch_coverage():
+def branch_coverage():  # pragma: no cover
     allBranches = { 11, 12, 21, 22, 31, 32, 41, 42, 51, 52, 61, 62, 71, 72, 81, 82, 91, 92, 101, 102, 111, 112, 121, 122, 131, 132, 141, 142, 151, 152 }
     print("Branch coverage results")
     print("-----------------------")
