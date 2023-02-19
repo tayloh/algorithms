@@ -215,6 +215,40 @@ class TestRBTree(unittest.TestCase):
         self.assertEqual(0, rb.root.left.color)
         self.assertEqual(0, rb.root.right.color)
 
+    # Tests the removal of the right child of a node.
+    def test_simple_removal_right_child(self):
+        rb = RBTree()
+        node1 = RBNode(3, 0)
+        node2 = RBNode(5, 0)
+        node3 = RBNode(2, 0)
+        node4 = RBNode(1, 1)
+        nullNode1 = RBNode(-1, 0)
+        nullNode3 = RBNode(-1, 0)
+        nullNode4 = RBNode(-1, 0)
+        nullNode5 = RBNode(-1, 0)
+        rb.root = node1
+        node1.left = node3
+        node1.right = node2
+        node2.parent = node1
+        node3.parent = node1
+        node2.left = nullNode1
+        nullNode1.parent = node2
+        node3.left = node4
+        node3.right = nullNode3
+        node4.parent = node3
+        nullNode3.parent = node3
+        node4.right = nullNode4
+        node4.left = nullNode5
+        nullNode4.parent = node4
+        nullNode5.parent = node4
+
+        rb.delete(node2)
+        self.assertEqual(2, rb.root.val)
+        self.assertEqual(3, rb.root.right.val)
+        self.assertEqual(1, rb.root.left.val)
+        self.assertEqual(0, rb.root.left.color)
+        self.assertEqual(0, rb.root.right.color)
+
 
 if __name__ == '__main__':
     unittest.main()
