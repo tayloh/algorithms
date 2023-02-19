@@ -17,6 +17,9 @@ class Node(object): # pragma: no cover
 
 
 def intersection(h1, h2):
+    """Returns the intersecting node of linkedlists h1 and h2 if there's an intersection,
+    else None.
+    """
 
     count = 0
     flag = None
