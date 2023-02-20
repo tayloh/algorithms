@@ -44,22 +44,48 @@ def count_islands(grid):
     num_islands = 0
     visited = [[0] * col for i in range(row)]
     directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]
-    queue = []
 
     for i in range(row):
         for j, num in enumerate(grid[i]):
-            if num == 1 and visited[i][j] != 1:
-                visited[i][j] = 1
-                queue.append((i, j))
-                while queue:
-                    x, y = queue.pop(0)
-                    for k in range(len(directions)):
-                        nx_x = x + directions[k][0]
-                        nx_y = y + directions[k][1]
-                        if nx_x >= 0 and nx_y >= 0 and nx_x < row and nx_y < col:
-                            if visited[nx_x][nx_y] != 1 and grid[nx_x][nx_y] == 1:
-                                queue.append((nx_x, nx_y))
-                                visited[nx_x][nx_y] = 1
+            if is_visited_land(i, j, visited, grid):
+                visited = find_island(i, j, grid, visited, directions, row, col)
                 num_islands += 1
 
     return num_islands
+
+
+# Finds the island that contains the given cell and returns the updated visited matrix
+def find_island(i, j, grid, visited, directions, row, col):
+    visited[i][j] = 1
+    queue = [(i, j)]
+    while queue:
+        x, y = queue.pop(0)
+        for k in range(len(directions)):
+            nx_x = x + directions[k][0]
+            nx_y = y + directions[k][1]
+
+            is_in_bound = 0 <= nx_x < row and 0 <= nx_y < col
+
+            if is_in_bound:
+                if is_visited_land(nx_x, nx_y, visited, grid):
+                    queue.append((nx_x, nx_y))
+                    visited[nx_x][nx_y] = 1
+    return visited
+
+def is_visited_land(x, y, visited, grid):
+    return visited[x][y] != 1 and grid[x][y] == 1
+
+if __name__ == '__main__':
+    #Taken from test_bfs:
+    grid_1 = [[1, 1, 1, 1, 0], [1, 1, 0, 1, 0], [1, 1, 0, 0, 0],
+              [0, 0, 0, 0, 0]]
+    print(count_islands(grid_1))
+    grid_2 = [[1, 1, 0, 0, 0], [1, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+              [0, 0, 0, 1, 1]]
+    print(count_islands(grid_2))
+    grid_3 = [[1, 1, 1, 0, 0, 0], [1, 1, 0, 0, 0, 0], [1, 0, 0, 0, 0, 1],
+              [0, 0, 1, 1, 0, 1], [0, 0, 1, 1, 0, 0]]
+    print(count_islands(grid_3))
+    grid_4 = [[1, 1, 0, 0, 1, 1], [0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 0, 1],
+              [1, 1, 1, 1, 0, 0]]
+    print(count_islands(grid_4))
