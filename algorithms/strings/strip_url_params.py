@@ -67,6 +67,24 @@ def strip_url_params1(url, params_to_strip=None):
                                     result = result + _token[0] + '=' + _token[1]
     return result
 
+def strip_url_params1_new(url, params_to_strip=[]):
+    result = '' # final result to be returned
+    if url and '?' in url:
+        tokens = url.split('?')
+        domain = tokens[0]
+        queries = tokens[1].split('&')
+        result += domain
+
+        query_str = ''
+        for i in range(len(queries)):
+            query = queries[i]
+            if not(query[0] in params_to_strip) and not(query[0] in [q[0] for q in queries[0:i]]):
+                query_str += query + '&'
+        result += '?' + query_str[0:(len(query_str)-1)]
+    else: result = url
+
+    return result
+
 # A very friendly pythonic solution (easy to follow)
 def strip_url_params2(url, param_to_strip=[]):
     if '?' not in url:
@@ -93,3 +111,7 @@ def strip_url_params3(url, strip=None):
     new = parse._replace(query=query)
     
     return new.geturl()
+
+if __name__ == '__main__':
+    print(strip_url_params1_new("www.saadbenn.com?a=1&b=2&a=2")) # should be "www.saadbenn.com?a=1&b=2"
+    print(strip_url_params1("www.saadbenn.com?a=1&b=2", ['b'])) # should be "www.saadbenn.com?a=1"
