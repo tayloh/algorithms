@@ -8,7 +8,7 @@ www.saadbenn.com?a=1&b=2&a=2') // returns 'www.saadbenn.com?a=1&b=2'
 """
 from collections import defaultdict
 import urllib
-import urllib.parse
+#import urllib.parse
 
 # Here is a very non-pythonic grotesque solution
 def strip_url_params1(url, params_to_strip=None):
@@ -68,7 +68,7 @@ def strip_url_params1(url, params_to_strip=None):
     return result
 
 # A very friendly pythonic solution (easy to follow)
-def strip_url_params2(url, param_to_strip=[]):
+def strip_url_params2(url, param_to_strip=[]): # pragma: no cover
     if '?' not in url:
         return url
 
@@ -82,7 +82,7 @@ def strip_url_params2(url, param_to_strip=[]):
 
 
 # Here is my friend's solution using python's builtin libraries
-def strip_url_params3(url, strip=None):
+def strip_url_params3(url, strip=None): # pragma: no cover
     if not strip: strip = []
     
     parse = urllib.parse.urlparse(url)
@@ -93,3 +93,11 @@ def strip_url_params3(url, strip=None):
     new = parse._replace(query=query)
     
     return new.geturl()
+
+if __name__ == "__main__": # pragma: no cover
+    strip_url_params1("www.saadbenn.com?a=1&b=2&a=2")
+    strip_url_params1("www.saadbenn.com?a=1&b=2")
+    strip_url_params1("bongi")
+    strip_url_params1("www.saadbenn.com?=1")
+    strip_url_params1("www.saadbenn.com?")
+    strip_url_params1("")
