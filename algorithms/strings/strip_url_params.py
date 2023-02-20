@@ -154,8 +154,8 @@ if __name__ == '__main__':
     # statements taken from tests/test_strings (only test cases for strip_url_params1)
     strip_url_params1("www.saadbenn.com?a=1&b=2&a=2")
     strip_url_params1("www.saadbenn.com?a=1&b=2", ['b'])
-    #strip_url_params1("bongi")
-    #strip_url_params1("www.saadbenn.com?=1")
-    #strip_url_params1("")
+    strip_url_params1("bongi")
+    strip_url_params1("www.saadbenn.com?=1")
+    strip_url_params1("")
 
     branch_coverage()
