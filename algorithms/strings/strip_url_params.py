@@ -77,13 +77,13 @@ def strip_url_params1_new(url, params_to_strip=[]):
         queries = tokens[1].split('&')
         result += domain
 
-        # remove duplicate parameters and those in params_to_strip
+        # remove duplicate parameters and those specified in params_to_strip
         query_str = ''
         for i in range(len(queries)):
-            query = queries[i]
-            if not(query[0] in params_to_strip) and not(query[0] in [q[0] for q in queries[0:i]]):
+            query = queries[i].split('=')
+            if not(query[0] in params_to_strip) and not(query[0] in [q.split('=')[0] for q in queries[0:i]]):
                 # if parameter should not be stripped, add it to query_str
-                query_str += query + '&'
+                query_str += query[0] + '=' +  query[1] + '&'
         # assemble parameters with domain previously added
         result += '?' + query_str[0:(len(query_str)-1)]
     else: result = url
