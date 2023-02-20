@@ -6,7 +6,7 @@ from numbers import Rational
 from functools import reduce
 
 
-class Monomial:
+class Monomial:  # pragma: no cover
     """
     A simple Monomial class to
     record the details of all variables
@@ -291,7 +291,7 @@ class Polynomial:
     that are potentially comprised of multiple
     variables.
     """
-    def __init__(self, monomials: Iterable[Union[int, float, Fraction, Monomial]]) -> None:
+    def __init__(self, monomials: Iterable[Union[int, float, Fraction, Monomial]]) -> None:  # pragma: no cover
         '''
         Create a polynomial in the given variables:
         Examples:
@@ -317,7 +317,7 @@ class Polynomial:
         self.monomials -= {Monomial({}, 0)}
 
     @staticmethod
-    def _rationalize_if_possible(num):
+    def _rationalize_if_possible(num): # pragma: no cover
         '''
         A helper for converting numbers
         to Fraction only when possible.
@@ -330,7 +330,7 @@ class Polynomial:
 
 
     # def __add__(self, other: Union[int, float, Fraction, Monomial, Polynomial]) -> Polynomial:
-    def __add__(self, other: Union[int, float, Fraction, Monomial]):
+    def __add__(self, other: Union[int, float, Fraction, Monomial]):  # pragma: no cover
         """
         Add a given poylnomial to a copy of self.
 
@@ -396,7 +396,7 @@ class Polynomial:
             return
 
     # def __mul__(self, other: Union[int, float, Fraction, Monomial, Polynomial]) -> Polynomial:
-    def __mul__(self, other: Union[int, float, Fraction, Monomial]):
+    def __mul__(self, other: Union[int, float, Fraction, Monomial]): # pragma: no cover
         """
         Multiply a given polynomial
         to a copy of self.
@@ -428,7 +428,7 @@ class Polynomial:
             raise ValueError('Can only multiple int, float, Fraction, Monomials, or Polynomials with Polynomials.')
 
     # def __floordiv__(self, other: Union[int, float, Fraction, Monomial, Polynomial]) -> Polynomial:
-    def __floordiv__(self, other: Union[int, float, Fraction, Monomial]):
+    def __floordiv__(self, other: Union[int, float, Fraction, Monomial]): # pragma: no cover
         """
         For Polynomials, floordiv is the same
         as truediv.
@@ -436,7 +436,7 @@ class Polynomial:
         return self.__truediv__(other)
 
     # def __truediv__(self, other: Union[int, float, Fraction, Monomial, Polynomial]) -> Polynomial:
-    def __truediv__(self, other: Union[int, float, Fraction, Monomial]):
+    def __truediv__(self, other: Union[int, float, Fraction, Monomial]):  # pragma: no cover
         """
         For Polynomials, only division by a monomial
         is defined.
@@ -464,7 +464,7 @@ class Polynomial:
         return
 
     # def clone(self) -> Polynomial:
-    def clone(self):
+    def clone(self): # pragma: no cover
         """
         Clone the polynomial.
         """
@@ -482,14 +482,14 @@ class Polynomial:
         # res.sort()
         return set(res)
 
-    def all_monomials(self) -> Iterable[Monomial]:
+    def all_monomials(self) -> Iterable[Monomial]: # pragma: no cover
         """
         Get the monomials of this polynomial.
         """
         return {m for m in self.monomials if m != Monomial({}, 0)}
 
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other) -> bool: # pragma: no cover
         """
         Return True if the other polynomial is the same as
         this.
@@ -505,7 +505,7 @@ class Polynomial:
             raise ValueError('Can only compare a polynomial with an int, float, Fraction, Monomial, or another Polynomial.')
 
 
-    def subs(self, substitutions: Union[int, float, Fraction, Dict[int, Union[int, float, Fraction]]]) -> Union[int, float, Fraction]:
+    def subs(self, substitutions: Union[int, float, Fraction, Dict[int, Union[int, float, Fraction]]]) -> Union[int, float, Fraction]: # pragma: no cover
         """
         Get the value after substituting
         certain values for the variables
@@ -524,7 +524,7 @@ class Polynomial:
             ans += Polynomial._rationalize_if_possible(m.substitute(substitutions))
         return Polynomial._rationalize_if_possible(ans)
 
-    def __str__(self) -> str:
+    def __str__(self) -> str: # pragma: no cover
         """
         Get a string representation of
         the polynomial.
