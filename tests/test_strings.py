@@ -412,8 +412,10 @@ class TestRomanToInt(unittest.TestCase):
                          "www.saadbenn.com?a=1&b=2")
         self.assertEqual(strip_url_params1("www.saadbenn.com?a=1&b=2",
                           ['b']), "www.saadbenn.com?a=1")
+        # new test cases (4 in total)
         self.assertEqual(strip_url_params1("bongi"), "bongi")
         self.assertEqual(strip_url_params1("www.saadbenn.com?=1"), "www.saadbenn.com?")
+        self.assertEqual(strip_url_params1("www.saadbenn.com?"), "www.saadbenn.com?")
         with self.assertRaises(UnboundLocalError):
             strip_url_params1("")
         
