@@ -291,6 +291,7 @@ class Polynomial:
     that are potentially comprised of multiple
     variables.
     """
+    branches = [0] * 15
     def __init__(self, monomials: Iterable[Union[int, float, Fraction, Monomial]]) -> None:
         '''
         Create a polynomial in the given variables:
@@ -365,33 +366,84 @@ class Polynomial:
         """
         Subtract the given polynomial
         from a copy of self.
-
         """
+        
+        temp = 0
         if isinstance(other, int) or isinstance(other, float) or isinstance(other, Fraction):
+            
+            if isinstance(other, int):
+                Polynomial.branches[0] = 1 #branch 1
+            if isinstance(other, float):
+                Polynomial.branches[1] = 1 #branch 2
+            if isinstance(other, Fraction):
+                Polynomial.branches[2] = 1 # branch 3
+            
+            
+            for index, branch in enumerate(Polynomial.branches):
+                print(f"Went down branch {index}: {branch}")
+                if branch == 1:
+                    temp += 1
+            print("Total percentage: " + str(temp/len(Polynomial.branches)))
             return self.__sub__(Monomial({}, Polynomial._rationalize_if_possible(other)))
         elif isinstance(other, Monomial):
+            Polynomial.branches[3] = 1 # branch 4
             monos = {m.clone() for m in self.all_monomials()}
+            Polynomial.branches[4] = 1 # branch 5
             for _own_monos in monos:
+                Polynomial.branches[5] = 1 #branch 6
                 if _own_monos.equal_upto_scalar(other):
+                    Polynomial.branches[6] = 1 #branch 7
                     scalar = _own_monos.coeff
                     monos -= {_own_monos}
                     temp_variables = {i: other.variables[i] for i in other.variables}
+                    Polynomial.branches[7] = 1 # branch 8
                     monos |= {Monomial(temp_variables, Polynomial._rationalize_if_possible(scalar - other.coeff))}
+                    Polynomial.branches[8] = 1 # branch 9
+                   
+                    for index, branch in enumerate(Polynomial.branches):
+                        print(f"Went down branch {index}: {branch}")
+                        if branch == 1:
+                            temp += 1
+                    print("Total percentage: " + str(temp/len(Polynomial.branches)))
                     return Polynomial([z for z in monos])
 
             to_insert = other.clone()
             to_insert.coeff *= -1
 
             monos |= {to_insert}
+            
+            Polynomial.branches[9] = 1 #branch 10
+            
+            for index, branch in enumerate(Polynomial.branches):
+                print(f"Went down branch {index}: {branch}")
+                if branch == 1:
+                    temp += 1
+            print("Total percentage: " + str(temp/len(Polynomial.branches)))
             return Polynomial([z for z in monos])
 
         elif isinstance(other, Polynomial):
+            Polynomial.branches[10] = 1 #branch 11
             p = Polynomial(list(z for z in {m.clone() for m in self.all_monomials()}))
+            Polynomial.branches[11] = 1
+            Polynomial.branches[12] = 1 # branch 12 and branch 13
             for o in other.all_monomials():
                 p = p.__sub__(o.clone())
+            Polynomial.branches[13] = 1 #branch 14
+            
+            for index, branch in enumerate(Polynomial.branches):
+                print(f"Went down branch {index}: {branch}")
+                if branch == 1:
+                    temp += 1
+            print("Total percentage: " + str(temp/len(Polynomial.branches)))
             return p
 
         else:
+            Polynomial.branches[14] = 1 #branch 15
+            for index, branch in enumerate(Polynomial.branches): #pragma: no cover
+                print(f"Went down branch {index}: {branch}")
+                if branch == 1:
+                    temp += 1
+            print("Total percentage: " + str(temp/len(Polynomial.branches)))
             raise ValueError('Can only subtract int, float, Fraction, Monomials, or Polynomials from Polynomials.')
             return
 
