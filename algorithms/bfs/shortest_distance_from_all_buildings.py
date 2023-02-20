@@ -41,7 +41,11 @@ def shortest_distance(grid):
             else:
                 instrument[9] = 1
 
-    instrument[10] = 1 if res!=float('inf') else instrument[11] = 1
+    if res!=float('inf'):
+        instrument[10] = 1
+    else:
+        instrument[11] = 1
+
     return res if res!=float('inf') else -1
 
 def bfs(grid, matrix, i, j, count):
