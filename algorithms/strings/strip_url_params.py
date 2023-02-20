@@ -148,7 +148,7 @@ def branch_coverage():  # pragma: no cover
     # Print total branch coverage
     print("Branch coverage: " + str(len(branchList) / 30))
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma: no cover
     #unittest.main(exit=False)
     
     # statements taken from tests/test_strings (only test cases for strip_url_params1)
