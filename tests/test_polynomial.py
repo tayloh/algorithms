@@ -44,6 +44,10 @@ class TestSuite(unittest.TestCase):
 			Monomial({1: 1}, -2),
 			Monomial({1: 2, 2: -1}, -1.5)
 		])
+		self.p8 = Polynomial([
+			Monomial({1: 1}, 2),
+			1
+		])
 
 		self.m1 = Monomial({1: 2, 2: 3}, -1)
 
@@ -92,6 +96,23 @@ class TestSuite(unittest.TestCase):
 		self.assertEqual(self.p2 - self.p3, Polynomial([
 			Monomial({1: 2, 2: -1}, -1.5)
 		]))
+
+# New tests
+#1st Test with int
+		self.assertEqual(self.p8 - 4, Polynomial([-3, 
+		Monomial({1: 1}, 2)
+		]))
+#Test with floats
+		self.assertEqual(self.p8 - 3.14, Polynomial([-2.14,
+		Monomial({1: 1}, 2)
+		]))
+#Test with Fractions
+		self.assertEqual(self.p8 - Fraction(1, 2), Polynomial([0.5,
+		Monomial({1: 1}, 2)
+		]))
+#Raises Value error
+		with self.assertRaises(ValueError):
+			self.p8 - "ValueError"
 
 		pass
 

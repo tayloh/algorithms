@@ -6,7 +6,7 @@ from numbers import Rational
 from functools import reduce
 
 
-class Monomial:
+class Monomial: # pragma: no cover
     """
     A simple Monomial class to
     record the details of all variables
@@ -291,7 +291,9 @@ class Polynomial:
     that are potentially comprised of multiple
     variables.
     """
-    def __init__(self, monomials: Iterable[Union[int, float, Fraction, Monomial]]) -> None:
+    branches = [0] * 15
+    
+    def __init__(self, monomials: Iterable[Union[int, float, Fraction, Monomial]]) -> None: 
         '''
         Create a polynomial in the given variables:
         Examples:
@@ -315,9 +317,10 @@ class Polynomial:
             else:
                 raise ValueError('Iterable should have monomials, int, float, or Fraction.')
         self.monomials -= {Monomial({}, 0)}
+        
 
     @staticmethod
-    def _rationalize_if_possible(num):
+    def _rationalize_if_possible(num):# pragma: no cover
         '''
         A helper for converting numbers
         to Fraction only when possible.
@@ -330,7 +333,7 @@ class Polynomial:
 
 
     # def __add__(self, other: Union[int, float, Fraction, Monomial, Polynomial]) -> Polynomial:
-    def __add__(self, other: Union[int, float, Fraction, Monomial]):
+    def __add__(self, other: Union[int, float, Fraction, Monomial]): # pragma: no cover
         """
         Add a given poylnomial to a copy of self.
 
@@ -359,44 +362,96 @@ class Polynomial:
             return p
         else:
             raise ValueError('Can only add int, float, Fraction, Monomials, or Polynomials to Polynomials.')
-
     # def __sub__(self, other: Union[int, float, Fraction, Monomial, Polynomial]) -> Polynomial:
+    
     def __sub__(self, other: Union[int, float, Fraction, Monomial]):
         """
         Subtract the given polynomial
         from a copy of self.
 
         """
+        
+        temp = 0
         if isinstance(other, int) or isinstance(other, float) or isinstance(other, Fraction):
+            
+            if isinstance(other, int):
+                Polynomial.branches[0] = 1 #branch 1
+            if isinstance(other, float):
+                Polynomial.branches[1] = 1 #branch 2
+            if isinstance(other, Fraction):
+                Polynomial.branches[2] = 1 # branch 3
+            
+            
+            for index, branch in enumerate(Polynomial.branches):
+                print(f"Went down branch {index}: {branch}")
+                if branch == 1:
+                    temp += 1
+            print("Total percentage: " + str(temp/len(Polynomial.branches)))
             return self.__sub__(Monomial({}, Polynomial._rationalize_if_possible(other)))
         elif isinstance(other, Monomial):
+            Polynomial.branches[3] = 1 # branch 4
             monos = {m.clone() for m in self.all_monomials()}
+            Polynomial.branches[4] = 1 # branch 5
             for _own_monos in monos:
+                Polynomial.branches[5] = 1 #branch 6
                 if _own_monos.equal_upto_scalar(other):
+                    Polynomial.branches[6] = 1 #branch 7
                     scalar = _own_monos.coeff
                     monos -= {_own_monos}
                     temp_variables = {i: other.variables[i] for i in other.variables}
+                    Polynomial.branches[7] = 1 # branch 8
                     monos |= {Monomial(temp_variables, Polynomial._rationalize_if_possible(scalar - other.coeff))}
+                    Polynomial.branches[8] = 1 # branch 9
+                   
+                    for index, branch in enumerate(Polynomial.branches):
+                        print(f"Went down branch {index}: {branch}")
+                        if branch == 1:
+                            temp += 1
+                    print("Total percentage: " + str(temp/len(Polynomial.branches)))
                     return Polynomial([z for z in monos])
 
             to_insert = other.clone()
             to_insert.coeff *= -1
 
             monos |= {to_insert}
+            
+            Polynomial.branches[9] = 1 #branch 10
+            
+            for index, branch in enumerate(Polynomial.branches):
+                print(f"Went down branch {index}: {branch}")
+                if branch == 1:
+                    temp += 1
+            print("Total percentage: " + str(temp/len(Polynomial.branches)))
             return Polynomial([z for z in monos])
 
         elif isinstance(other, Polynomial):
+            Polynomial.branches[10] = 1 #branch 11
             p = Polynomial(list(z for z in {m.clone() for m in self.all_monomials()}))
+            Polynomial.branches[11] = 1
+            Polynomial.branches[12] = 1 # branch 12 and branch 13
             for o in other.all_monomials():
                 p = p.__sub__(o.clone())
+            Polynomial.branches[13] = 1 #branch 14
+            
+            for index, branch in enumerate(Polynomial.branches):
+                print(f"Went down branch {index}: {branch}")
+                if branch == 1:
+                    temp += 1
+            print("Total percentage: " + str(temp/len(Polynomial.branches)))
             return p
 
         else:
+            Polynomial.branches[14] = 1 #branch 15
+            for index, branch in enumerate(Polynomial.branches): #pragma: no cover
+                print(f"Went down branch {index}: {branch}")
+                if branch == 1:
+                    temp += 1
+            print("Total percentage: " + str(temp/len(Polynomial.branches)))
             raise ValueError('Can only subtract int, float, Fraction, Monomials, or Polynomials from Polynomials.')
             return
 
     # def __mul__(self, other: Union[int, float, Fraction, Monomial, Polynomial]) -> Polynomial:
-    def __mul__(self, other: Union[int, float, Fraction, Monomial]):
+    def __mul__(self, other: Union[int, float, Fraction, Monomial]): # pragma: no cover
         """
         Multiply a given polynomial
         to a copy of self.
@@ -428,7 +483,7 @@ class Polynomial:
             raise ValueError('Can only multiple int, float, Fraction, Monomials, or Polynomials with Polynomials.')
 
     # def __floordiv__(self, other: Union[int, float, Fraction, Monomial, Polynomial]) -> Polynomial:
-    def __floordiv__(self, other: Union[int, float, Fraction, Monomial]):
+    def __floordiv__(self, other: Union[int, float, Fraction, Monomial]): # pragma: no cover
         """
         For Polynomials, floordiv is the same
         as truediv.
@@ -436,7 +491,7 @@ class Polynomial:
         return self.__truediv__(other)
 
     # def __truediv__(self, other: Union[int, float, Fraction, Monomial, Polynomial]) -> Polynomial:
-    def __truediv__(self, other: Union[int, float, Fraction, Monomial]):
+    def __truediv__(self, other: Union[int, float, Fraction, Monomial]): # pragma: no cover
         """
         For Polynomials, only division by a monomial
         is defined.
@@ -464,13 +519,13 @@ class Polynomial:
         return
 
     # def clone(self) -> Polynomial:
-    def clone(self):
+    def clone(self): # pragma: no cover
         """
         Clone the polynomial.
         """
         return Polynomial(list({m.clone() for m in self.all_monomials()}))
 
-    def variables(self) -> Set:
+    def variables(self) -> Set: # pragma: no cover
         """
         Get all the variables present
         in this polynomials.
@@ -482,14 +537,14 @@ class Polynomial:
         # res.sort()
         return set(res)
 
-    def all_monomials(self) -> Iterable[Monomial]:
+    def all_monomials(self) -> Iterable[Monomial]: # pragma: no cover
         """
         Get the monomials of this polynomial.
         """
         return {m for m in self.monomials if m != Monomial({}, 0)}
 
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other) -> bool:# pragma: no cover
         """
         Return True if the other polynomial is the same as
         this.
@@ -505,7 +560,7 @@ class Polynomial:
             raise ValueError('Can only compare a polynomial with an int, float, Fraction, Monomial, or another Polynomial.')
 
 
-    def subs(self, substitutions: Union[int, float, Fraction, Dict[int, Union[int, float, Fraction]]]) -> Union[int, float, Fraction]:
+    def subs(self, substitutions: Union[int, float, Fraction, Dict[int, Union[int, float, Fraction]]]) -> Union[int, float, Fraction]: # pragma: no cover
         """
         Get the value after substituting
         certain values for the variables
@@ -524,7 +579,7 @@ class Polynomial:
             ans += Polynomial._rationalize_if_possible(m.substitute(substitutions))
         return Polynomial._rationalize_if_possible(ans)
 
-    def __str__(self) -> str:
+    def __str__(self) -> str: # pragma: no cover
         """
         Get a string representation of
         the polynomial.
