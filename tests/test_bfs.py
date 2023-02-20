@@ -58,8 +58,8 @@ class TestWordLadder(unittest.TestCase):
         self.assertEqual(-1, ladder_length('rahul', 'coder', ['blahh',
                                            'blhah']))
 
-class TestShortestIsland(unittest.TestCase):
-    def test_shortest_island(self):
+class TestShortestDistance(unittest.TestCase):
+    def test_shortest_distance(self):
         correct_grid = [[1, 0, 1, 0, 1],
                         [0, 0, 0, 0, 0],
                         [0, 0, 1, 0, 0]]
