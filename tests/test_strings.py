@@ -399,7 +399,7 @@ class TestRomanToInt(unittest.TestCase):
         self.assertEqual(3999, roman_to_int("MMMCMXCIX"))
 
 
-# class TestStripUrlParams(unittest.TestCase):
+class TestStripUrlParams(unittest.TestCase):
     """[summary]
     Test for the file strip_urls_params.py
 
